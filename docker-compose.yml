@@ -1,0 +1,50 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: go-clean-boilerplate
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - PORT=8080
+      - SERVER_READ_TIMEOUT=10
+      - SERVER_WRITE_TIMEOUT=10
+      - SERVER_IDLE_TIMEOUT=120
+      - DB_DRIVER=postgres
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - DB_NAME=go_clean_boilerplate
+      - DB_SSL_MODE=disable
+      - LOG_LEVEL=info
+    restart: unless-stopped
+    networks:
+      - go-clean-boilerplate-network
+
+  db:
+    image: postgres:14-alpine
+    container_name: go-clean-boilerplate-db
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=go_clean_boilerplate
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - go-clean-boilerplate-network
+
+volumes:
+  postgres_data:
+
+networks:
+  go-clean-boilerplate-network:
+    driver: bridge
