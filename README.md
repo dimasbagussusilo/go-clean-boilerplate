@@ -1,4 +1,3 @@
-
 # Go Clean Boilerplate
 
 [![Go Version](https://img.shields.io/badge/Go-1.24+-00ADD8.svg)](https://golang.org/dl/)
@@ -230,6 +229,3 @@ Contributions are welcome! Please feel free to submit a Pull Request.
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-#   g o - c l e a n - b o i l e r p l a t e  
- #   g o - c l e a n - b o i l e r p l a t e  
- 
