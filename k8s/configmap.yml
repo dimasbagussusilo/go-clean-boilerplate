@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: go-clean-boilerplate-config
+  labels:
+    app: go-clean-boilerplate
+data:
+  # Server Configuration
+  PORT: "8080"
+  SERVER_READ_TIMEOUT: "10"
+  SERVER_WRITE_TIMEOUT: "10"
+  SERVER_IDLE_TIMEOUT: "120"
+
+  # Database Configuration
+  DB_DRIVER: "postgres"
+  DB_HOST: "postgres-service"
+  DB_PORT: "5432"
+  DB_USER: "postgres"
+  DB_NAME: "go_clean_boilerplate"
+  DB_SSL_MODE: "disable"
+
+  # Logger Configuration
+  LOG_LEVEL: "info"
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: go-clean-boilerplate-secrets
+  labels:
+    app: go-clean-boilerplate
+type: Opaque
+data:
+  # Base64 encoded value of "postgres"
+  DB_PASSWORD: cG9zdGdyZXM=

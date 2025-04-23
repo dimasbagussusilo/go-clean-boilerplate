@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: go-clean-boilerplate
+  labels:
+    app: go-clean-boilerplate
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: go-clean-boilerplate
+  template:
+    metadata:
+      labels:
+        app: go-clean-boilerplate
+    spec:
+      containers:
+      - name: go-clean-boilerplate
+        image: ${DOCKER_REGISTRY}/go-clean-boilerplate:latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        resources:
+          limits:
+            cpu: "500m"
+            memory: "512Mi"
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+        envFrom:
+        - configMapRef:
+            name: go-clean-boilerplate-config
+        - secretRef:
+            name: go-clean-boilerplate-secrets
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
