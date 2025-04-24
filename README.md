@@ -189,6 +189,8 @@ The application can be configured using environment variables:
 
 ## 🔌 API Endpoints
 
+### User Endpoints
+
 | Method   | Path           | Description                      |
 |:---------|:---------------|:---------------------------------|
 | `GET`    | `/health`      | Health check                     |
@@ -201,8 +203,44 @@ The application can be configured using environment variables:
 **Example Request Body for POST /users:**
 ```json
 {
-  "name": "John Doe",
-  "email": "john.doe@example.com"
+  "username": "johndoe",
+  "email": "john.doe@example.com",
+  "password": "securepassword",
+  "first_name": "John",
+  "last_name": "Doe"
+}
+```
+
+### Task Endpoints
+
+| Method   | Path                        | Description                      |
+|:---------|:----------------------------|:---------------------------------|
+| `GET`    | `/tasks`                    | List all tasks                   |
+| `POST`   | `/tasks`                    | Create a new task                |
+| `GET`    | `/tasks/{id}`               | Get task by ID                   |
+| `PUT`    | `/tasks/{id}`               | Update task by ID                |
+| `DELETE` | `/tasks/{id}`               | Delete task by ID                |
+| `GET`    | `/users/{id}/tasks`         | Get tasks by user ID             |
+| `PUT`    | `/tasks/{id}/in-progress`   | Mark task as in progress         |
+| `PUT`    | `/tasks/{id}/completed`     | Mark task as completed           |
+
+**Example Request Body for POST /tasks:**
+```json
+{
+  "title": "Complete project",
+  "description": "Finish the clean architecture implementation",
+  "user_id": 1,
+  "due_date": "2023-12-31T23:59:59Z"
+}
+```
+
+**Example Request Body for PUT /tasks/{id}:**
+```json
+{
+  "title": "Complete project",
+  "description": "Updated description",
+  "status": "in_progress",
+  "due_date": "2023-12-31T23:59:59Z"
 }
 ```
 

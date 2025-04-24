@@ -26,12 +26,15 @@ func main() {
 
 	// Initialize repositories
 	userRepo := memory.NewUserRepository()
+	taskRepo := memory.NewTaskRepository()
 
 	// Initialize use cases
 	userUseCase := usecase.NewUserUseCase(userRepo)
+	taskUseCase := usecase.NewTaskUseCase(taskRepo, userRepo)
 
 	// Initialize HTTP handlers
 	userHandler := httpDelivery.NewUserHandler(userUseCase)
+	taskHandler := httpDelivery.NewTaskHandler(taskUseCase)
 
 	// Create router
 	mux := http.NewServeMux()
@@ -39,9 +42,13 @@ func main() {
 	// Register routes
 	mux.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("OK"))
+		_, err := w.Write([]byte("OK"))
+		if err != nil {
+			return
+		}
 	})
 	userHandler.RegisterRoutes(mux)
+	taskHandler.RegisterRoutes(mux)
 
 	// Apply middleware
 	handler := middleware.Logger(logger)(mux)
